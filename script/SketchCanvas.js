@@ -1239,7 +1239,7 @@ function deserialize(dat){
 
 this.loadData = function(value){
 	try{
-		dobjs = deserialize(jsyaml.safeLoad(value));
+		dobjs = deserialize(jsyaml.load(value));
 		selectobj = []; // Clear the selection explicitly
 		resizeCanvas();
 		draw();
@@ -1272,8 +1272,8 @@ this.loadLocal = function(name){
 		var origData = localStorage.getItem("canvasDrawData");
 		if(origData === null)
 			return;
-		var selData = jsyaml.safeLoad(origData);
-		dobjs = deserialize(jsyaml.safeLoad(selData[name]));
+		var selData = jsyaml.load(origData);
+		dobjs = deserialize(jsyaml.load(selData[name]));
 		selectobj = []; // Clear the selection explicitly
 		updateDrawData();
 		redraw(dobjs);
@@ -1332,7 +1332,7 @@ this.requestServerFile = function(item, hash){
 						throw "Failed to obtain revision " + selData;
 					selData = selData.substr(selData.indexOf("\n")+1);
 				}
-				dobjs = deserialize(jsyaml.safeLoad(selData));
+				dobjs = deserialize(jsyaml.load(selData));
 				selectobj = [];
 				updateDrawData();
 				resizeCanvas();
@@ -1461,7 +1461,7 @@ function choiceHBox(x, y) {
 this.saveLocal = function(name){
 	if(typeof(Storage) !== "undefined"){
 		var str = localStorage.getItem("canvasDrawData");
-		var origData = str === null ? {} : jsyaml.safeLoad(str);
+		var origData = str === null ? {} : jsyaml.load(str);
 		var newEntry = !(name in origData);
 		origData[name] = jsyaml.safeDump(serialize(dobjs));
 		localStorage.setItem("canvasDrawData", jsyaml.safeDump(origData));
@@ -1479,7 +1479,7 @@ this.listLocal = function() {
 
 	if(typeof(Storage) !== "undefined"){
 		var str = localStorage.getItem("canvasDrawData");
-		var origData = str === null ? {} : jsyaml.safeLoad(str);
+		var origData = str === null ? {} : jsyaml.load(str);
 
 		// Enumerating keys array would be simpler if we could use Object.keys(),
 		// but the method won't work for IE6, 7, 8.
