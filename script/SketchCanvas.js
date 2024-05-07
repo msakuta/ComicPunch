@@ -1463,8 +1463,8 @@ this.saveLocal = function(name){
 		var str = localStorage.getItem("canvasDrawData");
 		var origData = str === null ? {} : jsyaml.load(str);
 		var newEntry = !(name in origData);
-		origData[name] = jsyaml.safeDump(serialize(dobjs));
-		localStorage.setItem("canvasDrawData", jsyaml.safeDump(origData));
+		origData[name] = jsyaml.dump(serialize(dobjs));
+		localStorage.setItem("canvasDrawData", jsyaml.dump(origData));
 		// If the named sketch didn't exist, fire up the event of local storage change.
 		if(newEntry && ('onLocalChange' in this) && this.onLocalChange)
 			this.onLocalChange();
@@ -1540,7 +1540,7 @@ function cloneObject(obj) {
 
 function updateDrawData(){
 	try{
-		var text = jsyaml.safeDump(serialize(dobjs), {flowLevel: 2});
+		var text = jsyaml.dump(serialize(dobjs), {flowLevel: 2});
 		if(('onUpdateData' in self) && self.onUpdateData)
 			self.onUpdateData(text);
 	} catch(e){
@@ -1574,7 +1574,7 @@ var createXMLHttpRequest = this.createXMLHttpRequest;
 /// @param target The target URL for posting.
 /// @param requestDelete If true, it will post delete request instead of new data.
 this.postData = function(fname, target, requestDelete){
-	var data = jsyaml.safeDump(serialize(dobjs), {flowLevel: 2});
+	var data = jsyaml.dump(serialize(dobjs), {flowLevel: 2});
 	// Asynchronous request for getting figure data in the server.
 	var xmlHttp = createXMLHttpRequest();
 	if(xmlHttp){
