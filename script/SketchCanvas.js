@@ -20,6 +20,7 @@
 /// function onUpdateData(data);
 /// This event is invoked when the contents of figure data is modified.
 import jsyaml from './js-yaml.mjs';
+import i18n from 'https://deno.land/x/i18next@v23.11.4/index.js';
 import { resources } from './translation.js';
 
 export function SketchCanvas(canvas, options){
@@ -31,7 +32,7 @@ var scale = options && options.scale ? options.scale : 1;
 var currentLanguage = (window.navigator.language || window.navigator.userLanguage || window.navigator.userLanguage);
 currentLanguage = currentLanguage.substr(0, 2);
 
-i18n.init({lng: currentLanguage, fallbackLng: 'en', resStore: resources, getAsync: false});
+i18n.init({lng: currentLanguage, fallbackLng: 'en', resources: resources, getAsync: false});
 
 var dobjs; // Drawing objects
 var dhistory; // Drawing object history (for undoing)
