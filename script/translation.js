@@ -1,4 +1,4 @@
-var resources = {
+export var resources = {
 	"en": {
 		translation: {}
 	},

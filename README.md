@@ -98,3 +98,16 @@ https://noto-website.storage.googleapis.com/pkgs/NotoSansCJKJP-hinted.zip
 
 This feature can be used to embed sketches into a PDF in conjunction with
 DokuWiki's dw2pdf plugin.
+
+
+## How to build
+
+As a PHP application, it does not need build the server side, but the frontend needs to bundle.
+
+Prerequisite:
+
+* [deno](https://deno.com/)
+
+Run the following command to build the bundled script (replace '\' with '/' in *nix).
+
+    deno run --allow-read --allow-write --allow-net=deno.land,registry.npmjs.org --allow-env --allow-run --unstable .\bundle.ts .\script\SketchCanvas.js

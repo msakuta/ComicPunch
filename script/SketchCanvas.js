@@ -19,7 +19,10 @@
 ///
 /// function onUpdateData(data);
 /// This event is invoked when the contents of figure data is modified.
-function SketchCanvas(canvas, options){
+import jsyaml from './js-yaml.mjs';
+import { resources } from './translation.js';
+
+export function SketchCanvas(canvas, options){
 'use strict';
 var editmode = options && options.editmode;
 var scale = options && options.scale ? options.scale : 1;
@@ -2689,4 +2692,3 @@ SketchCanvas.prototype.createXMLHttpRequest = function(){
 	}
 	return xmlHttp;
 }
-
