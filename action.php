@@ -47,7 +47,13 @@ class action_plugin_sketchcanvas extends DokuWiki_Action_Plugin {
             "rel" => "stylesheet",
             "href" => (is_ssl() ? "https" : "http") . "://fonts.googleapis.com/earlyaccess/notosansjapanese.css",
              );
-        $files = array('SketchCanvas.js', 'draw.js', /*'i18next-1.7.2.min.js', 'js-yaml.min.js',*/ 'translation.js');
+        $event->data['script'][] = array(
+            'type'    => 'text/javascript',
+            'charset' => 'utf-8',
+            'src'     => DOKU_BASE . 'lib/plugins/' . $this->getPluginName() . '/bundle/SketchCanvas.js',
+            '_data'   => '',
+                );
+        $files = array('draw.js', /*'i18next-1.7.2.min.js', 'js-yaml.min.js',*/ );
         foreach($files as $file)
             $event->data['script'][] = array(
                 'type'    => 'text/javascript',
@@ -64,7 +70,7 @@ document.addEventListener('DOMContentLoaded', function(){
     for(var i = 1; (canvas = document.getElementById("__sketchcanvas" + i)); i++) {
         var text = document.getElementById("__sketchcanvas_text" + i);
         if(text) {
-            var skcanvas = new SketchCanvas(canvas);
+            var skcanvas = new SketchCanvas.SketchCanvas(canvas);
             skcanvas.loadData(text.innerHTML);
             var form = document.forms['__sketchcanvas_form' + i];
             if(form){
@@ -104,7 +110,7 @@ EOT
 <script type="text/javascript"><!--
 var skcanvas;
 document.addEventListener('DOMContentLoaded', function(){
-    skcanvas = new SketchCanvas(document.getElementById('editcanvas'), {editmode: true});
+    skcanvas = new SketchCanvas.SketchCanvas(document.getElementById('editcanvas'), {editmode: true});
     skcanvas.loadData($escText);
     skcanvas.onUpdateData = function(data){
         var wikitext = document.getElementById('wiki__text');

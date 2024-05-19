@@ -19,6 +19,14 @@ It aims to have following features:
 * Has extensible format.
 
 
+## DokuWiki plugin
+
+The SketchCanvas figure is a file format and a JS library to render/edit.
+However, this project also implements a DokuWiki plugin that you can embed this document into a wiki text, and it is the most common way to use it.
+
+See the [plugin page](https://www.dokuwiki.org/plugin:sketchcanvas) for more.
+
+
 ## Current implementation
 
 Current implementation uses YAML as format.
@@ -98,3 +106,25 @@ https://noto-website.storage.googleapis.com/pkgs/NotoSansCJKJP-hinted.zip
 
 This feature can be used to embed sketches into a PDF in conjunction with
 DokuWiki's dw2pdf plugin.
+
+
+## How to build
+
+As a PHP application, it does not need build the server side, but the frontend needs to bundle.
+
+Prerequisite:
+
+* [deno](https://deno.com/)
+
+Run the following command to build the bundled script.
+
+    deno run --allow-read --allow-write --allow-net=deno.land,registry.npmjs.org --allow-env --allow-run --unstable bundle.ts
+
+This will produce a directory and a source file `bundle/SketchCanvas.js` and its source map file `bundle/SketchCanvas.js.map`.
+
+Make the zip file to install as a package (please run it on a Unix like shell):
+
+    ./makezip.sh
+
+`sketchcanvas.zip` will be produced in the directory.
+This file can be installed from manual install or be linked from [plugin page](https://www.dokuwiki.org/plugin:sketchcanvas).

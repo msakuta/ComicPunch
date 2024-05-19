@@ -19,7 +19,11 @@
 ///
 /// function onUpdateData(data);
 /// This event is invoked when the contents of figure data is modified.
-function SketchCanvas(canvas, options){
+import jsyaml from './js-yaml.mjs';
+import i18n from 'https://deno.land/x/i18next@v23.11.4/index.js';
+import { resources } from './translation.js';
+
+export function SketchCanvas(canvas, options){
 'use strict';
 var editmode = options && options.editmode;
 var scale = options && options.scale ? options.scale : 1;
@@ -28,7 +32,7 @@ var scale = options && options.scale ? options.scale : 1;
 var currentLanguage = (window.navigator.language || window.navigator.userLanguage || window.navigator.userLanguage);
 currentLanguage = currentLanguage.substr(0, 2);
 
-i18n.init({lng: currentLanguage, fallbackLng: 'en', resStore: resources, getAsync: false});
+i18n.init({lng: currentLanguage, fallbackLng: 'en', resources: resources, getAsync: false});
 
 var dobjs; // Drawing objects
 var dhistory; // Drawing object history (for undoing)
@@ -1239,7 +1243,7 @@ function deserialize(dat){
 
 this.loadData = function(value){
 	try{
-		dobjs = deserialize(jsyaml.safeLoad(value));
+		dobjs = deserialize(jsyaml.load(value));
 		selectobj = []; // Clear the selection explicitly
 		resizeCanvas();
 		draw();
@@ -1272,8 +1276,8 @@ this.loadLocal = function(name){
 		var origData = localStorage.getItem("canvasDrawData");
 		if(origData === null)
 			return;
-		var selData = jsyaml.safeLoad(origData);
-		dobjs = deserialize(jsyaml.safeLoad(selData[name]));
+		var selData = jsyaml.load(origData);
+		dobjs = deserialize(jsyaml.load(selData[name]));
 		selectobj = []; // Clear the selection explicitly
 		updateDrawData();
 		redraw(dobjs);
@@ -1332,7 +1336,7 @@ this.requestServerFile = function(item, hash){
 						throw "Failed to obtain revision " + selData;
 					selData = selData.substr(selData.indexOf("\n")+1);
 				}
-				dobjs = deserialize(jsyaml.safeLoad(selData));
+				dobjs = deserialize(jsyaml.load(selData));
 				selectobj = [];
 				updateDrawData();
 				resizeCanvas();
@@ -1461,10 +1465,10 @@ function choiceHBox(x, y) {
 this.saveLocal = function(name){
 	if(typeof(Storage) !== "undefined"){
 		var str = localStorage.getItem("canvasDrawData");
-		var origData = str === null ? {} : jsyaml.safeLoad(str);
+		var origData = str === null ? {} : jsyaml.load(str);
 		var newEntry = !(name in origData);
-		origData[name] = jsyaml.safeDump(serialize(dobjs));
-		localStorage.setItem("canvasDrawData", jsyaml.safeDump(origData));
+		origData[name] = jsyaml.dump(serialize(dobjs));
+		localStorage.setItem("canvasDrawData", jsyaml.dump(origData));
 		// If the named sketch didn't exist, fire up the event of local storage change.
 		if(newEntry && ('onLocalChange' in this) && this.onLocalChange)
 			this.onLocalChange();
@@ -1479,7 +1483,7 @@ this.listLocal = function() {
 
 	if(typeof(Storage) !== "undefined"){
 		var str = localStorage.getItem("canvasDrawData");
-		var origData = str === null ? {} : jsyaml.safeLoad(str);
+		var origData = str === null ? {} : jsyaml.load(str);
 
 		// Enumerating keys array would be simpler if we could use Object.keys(),
 		// but the method won't work for IE6, 7, 8.
@@ -1540,7 +1544,7 @@ function cloneObject(obj) {
 
 function updateDrawData(){
 	try{
-		var text = jsyaml.safeDump(serialize(dobjs), {flowLevel: 2});
+		var text = jsyaml.dump(serialize(dobjs), {flowLevel: 2});
 		if(('onUpdateData' in self) && self.onUpdateData)
 			self.onUpdateData(text);
 	} catch(e){
@@ -1574,7 +1578,7 @@ var createXMLHttpRequest = this.createXMLHttpRequest;
 /// @param target The target URL for posting.
 /// @param requestDelete If true, it will post delete request instead of new data.
 this.postData = function(fname, target, requestDelete){
-	var data = jsyaml.safeDump(serialize(dobjs), {flowLevel: 2});
+	var data = jsyaml.dump(serialize(dobjs), {flowLevel: 2});
 	// Asynchronous request for getting figure data in the server.
 	var xmlHttp = createXMLHttpRequest();
 	if(xmlHttp){
@@ -2689,4 +2693,3 @@ SketchCanvas.prototype.createXMLHttpRequest = function(){
 	}
 	return xmlHttp;
 }
-

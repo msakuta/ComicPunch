@@ -56,7 +56,7 @@ class CanvasElement extends dokuwiki\Form\InputElement
 <script type="text/javascript"><!--
 var skcanvas;
 document.addEventListener('DOMContentLoaded', function(){
-    skcanvas = new SketchCanvas(document.getElementById('editcanvas'), {editmode: true});
+    skcanvas = new SketchCanvas.SketchCanvas(document.getElementById('editcanvas'), {editmode: true});
     skcanvas.loadData($escText);
     skcanvas.onUpdateData = function(data){
         var wikitext = document.getElementById('wiki__text');
