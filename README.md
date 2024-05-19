@@ -108,6 +108,6 @@ Prerequisite:
 
 * [deno](https://deno.com/)
 
-Run the following command to build the bundled script (replace '\' with '/' in *nix).
+Run the following command to build the bundled script.
 
-    deno run --allow-read --allow-write --allow-net=deno.land,registry.npmjs.org --allow-env --allow-run --unstable .\bundle.ts .\script\SketchCanvas.js
+    deno run --allow-read --allow-write --allow-net=deno.land,registry.npmjs.org --allow-env --allow-run --unstable bundle.ts
