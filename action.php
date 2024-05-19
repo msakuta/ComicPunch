@@ -126,7 +126,7 @@ EOT;
         // Pass wikitext through POSTs for previewing and saving
         if(isset($_POST['editfigure__new'])) {
             foreach($_POST['editfigure__new'] as $k => $v) {
-                $form->addHidden("editfigure__new[$k]", $v);
+                $form->setHiddenField("editfigure__new[$k]", $v);
             }
         }
     }
@@ -152,7 +152,7 @@ EOT;
         // Pass wikitext through POSTs for previewing and saving
         if(isset($_POST['editfigure__new'])) {
             foreach($_POST['editfigure__new'] as $k => $v) {
-                $form->addHidden("editfigure__new[$k]", $v);
+                $form->setHiddenField("editfigure__new[$k]", $v);
             }
         }
     }
@@ -230,6 +230,7 @@ EOT;
                 // return to edit page
                 $INPUT->post->set('target', 'section');
                 $TEXT = $fields['pre']."<skcanvas>\n".$TEXT."</skcanvas>".$fields['suf'];
+                $INPUT->post->set('wikitext', $TEXT);
                 $ACT  = 'edit';
                 break;
         }
