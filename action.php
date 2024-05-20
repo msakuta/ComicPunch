@@ -224,7 +224,8 @@ EOT;
                 // not sure if/how this would happen, we restore all data and hand over to section edit
                 $INPUT->post->set('target', 'section');
                 $TEXT = $fields['pre'].$fields['text'].$fields['suf'];
-                $ACT  = 'edit';
+                $INPUT->post->set('wikitext', $TEXT);
+                $event->data  = 'edit';
                 break;
             case 'save':
                 // return to edit page
