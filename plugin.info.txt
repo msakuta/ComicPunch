@@ -1,7 +1,7 @@
 base   sketchcanvas
 author Masahiro Sakuta
 email  masahiro.sakuta@gmail.com
-date   2020-03-22
+date   2024-05-21
 name   SketchCanvas plugin
 desc   SketchCanvas documents in-place GUI editor/viewer embedded in DokuWiki.
 url    https://www.dokuwiki.org/plugin:sketchcanvas
