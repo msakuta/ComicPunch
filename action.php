@@ -152,7 +152,7 @@ EOT;
         // Pass wikitext through POSTs for previewing and saving
         if(isset($_POST['editfigure__new'])) {
             foreach($_POST['editfigure__new'] as $k => $v) {
-                $form->addHidden("editfigure__new[$k]", $v);
+                $form->setHiddenField("editfigure__new[$k]", $v);
             }
         }
     }
@@ -224,12 +224,14 @@ EOT;
                 // not sure if/how this would happen, we restore all data and hand over to section edit
                 $INPUT->post->set('target', 'section');
                 $TEXT = $fields['pre'].$fields['text'].$fields['suf'];
-                $ACT  = 'edit';
+                $INPUT->post->set('wikitext', $TEXT);
+                $event->data  = 'edit';
                 break;
             case 'save':
                 // return to edit page
                 $INPUT->post->set('target', 'section');
                 $TEXT = $fields['pre']."<skcanvas>\n".$TEXT."</skcanvas>".$fields['suf'];
+                $INPUT->post->set('wikitext', $TEXT);
                 $ACT  = 'edit';
                 break;
         }
